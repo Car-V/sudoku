@@ -7,6 +7,8 @@ import random
 
 # changing rows and cols to being from 0 to 8 fixed issues,
 # but now I need to take into account the 3x3 boxes
+
+# fixed by using
 # random.sample(range(3), 3) provides a random array with values [0, 1, 2]
 
 # these rows and columns are abstract; segment, made from appended vals, made from a unique combination derived from
@@ -21,7 +23,6 @@ for j in random.sample(range(3), 3):
     for b in random.sample(range(3), 3):
         cols.append(3*b + j)
 
-
 # base = random.sample([1, 2, 3, 4, 5, 6, 7, 8, 9], 9)
 
 sudoku = []
@@ -34,25 +35,17 @@ for i in rows:
         # highest val from just within parenthesis is 17; (9, 8) makes 9 + 6 + 2, versus (8, 9) makes 8 + 0 + 3
         # (8, 5) versus (7, 6) is 8 + 6 + 1 versus 7 + 0 + 2, though their original sums are equal
         val = (i + 3*(j % 3) + j//3) % 9 + 1
-        # this will help get a specific index for the array
-        # we can combine this with another random vector (base)
         print(val)
         segment.append(val)
     print(segment)
     print()
     sudoku.append(segment)
     segment = []
-
-
-# now getting a board that repeats a number in each row, found at the same index in each row
-# columns are unique
 print(sudoku)
+
 print()
 for lin in sudoku:
     print(lin)
-# print(rows, cols)
-# puzzle = []  # need an array 9x9
-#  need to make it so that none of the columns and rows match a number
 
 # board has now been created; need to extract some values that still allow it to be solved
 # make board look cleaner
