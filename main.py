@@ -63,3 +63,49 @@ print()
 # unique random values being erased
 for blank_square in random.sample(range(81), 60):
     sudoku[blank_square % 9][blank_square // 9] = 0
+
+# not necessary but just to see its current state
+for lin in sudoku:
+    print('[', end='')
+    for n in lin:
+        print(f' {n}', end='')
+    print(' ]')
+print()
+
+
+def sudoku_row(r):
+    print('||', end='')
+    for value in r[0:3]:
+        print(f' {value if value != 0 else " "} |', end='')
+    print('|', end='')
+    for value in r[3:6]:
+        print(f' {value if value != 0 else " "} |', end='')
+    print('|', end='')
+    for value in r[6:9]:
+        print(f' {value if value != 0 else " "} |', end='')
+    print('|')
+    
+
+def display(grid):
+    print(border1)
+    for part in grid[0:2]:
+        sudoku_row(part)
+        print(border2)
+    sudoku_row(grid[2])
+    print(border1)
+    for part in grid[3:5]:
+        sudoku_row(part)
+        print(border2)
+    sudoku_row(grid[5])
+    print(border1)
+    for part in grid[6:8]:
+        sudoku_row(part)
+        print(border2)
+    sudoku_row(grid[8])
+    print(border1)
+
+
+border1 = '||===|===|===||===|===|===||===|===|===||'
+border2 = '||---|---|---||---|---|---||---|---|---||'
+
+display(sudoku)
