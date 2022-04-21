@@ -1,6 +1,6 @@
 # this is the actual file
 import random
-# import numpy as np
+from numpy import copy
 
 
 # maybe can make a function for the random.sample
@@ -56,7 +56,7 @@ for lin in sudoku:
 # make board look cleaner
 
 # since sudoku is being changed, need copy for solution
-solution = sudoku
+solution = copy(sudoku)
 print()
 
 # 21 is the minimum number of clues needed for a solution, though there could be multiple solutions
@@ -109,3 +109,11 @@ border1 = '||===|===|===||===|===|===||===|===|===||'
 border2 = '||---|---|---||---|---|---||---|---|---||'
 
 display(sudoku)
+
+print()
+com = input('Press \'y\' to see the solution: ')
+while com.upper() != 'Y':
+    com = input('Press \'y\' to see the solution: ')
+print()
+display(solution)
+# this is assuming that the sudoku we are using has one solution, which we need to confirm
