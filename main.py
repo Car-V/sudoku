@@ -4,8 +4,11 @@ import numpy as np
 
 
 # maybe can make a function for the random.sample
-rows = random.sample([1, 2, 3, 4, 5, 6, 7, 8, 9], 9)
-cols = random.sample([1, 2, 3, 4, 5, 6, 7, 8, 9], 9)
+
+# changing rows and cols to being from 0 to 8 fixed issues,
+# but now I need to take into account the 3x3 boxes
+rows = random.sample([0, 1, 2, 3, 4, 5, 6, 7, 8], 9)
+cols = random.sample([0, 1, 2, 3, 4, 5, 6, 7, 8], 9)
 
 base = random.sample([1, 2, 3, 4, 5, 6, 7, 8, 9], 9)
 
@@ -19,7 +22,10 @@ for i in rows:
         val = (i + 3*(j % 3) + j//3) % 9 + 1
         # this will help get a specific index for the array
         # we can combine this with another random vector (base)
+        print(val)
         segment.append(val)
+    print(segment)
+    print()
     sudoku.append(segment)
     segment = []
 
