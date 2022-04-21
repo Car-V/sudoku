@@ -10,6 +10,11 @@ import random
 
 # fixed by using
 # random.sample(range(3), 3) provides a random array with values [0, 1, 2]
+#
+# like with rows and cols being used to make unique vals, these ranges and the operation create unique values for
+# appending to rows from 0 to 8, and do so in such a manner that 3x3 boxes are outlined within the entire board,
+# the board being outlined by the whole of rows and cols ([0 1 2] versus [0 1 2 3 4 5 6 7 8])
+
 
 # these rows and columns are abstract; segment, made from appended vals, made from a unique combination derived from
 # rows and cols, is each actual row, and cols don't have matching nums because of the unique way vals is found by both
@@ -49,3 +54,12 @@ for lin in sudoku:
 
 # board has now been created; need to extract some values that still allow it to be solved
 # make board look cleaner
+
+# since sudoku is being changed, need copy for solution
+solution = sudoku
+print()
+
+# 21 is the minimum number of clues needed for a solution, though there could be multiple solutions
+# unique random values being erased
+for blank_square in random.sample(range(81), 60):
+    sudoku[blank_square % 9][blank_square // 9] = 0
