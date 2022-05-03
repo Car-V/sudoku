@@ -1,27 +1,43 @@
-# this is the actual file
+
+
+# NOT the actual file
 import random
 import numpy
 
-# maybe can make a function for the random.sample
-# for the board
-sudoku = []
 
-# for the full copy
+sudoku = []
 solution = []
 
 
-def allowed(hor, vert, symbol, sud):
+# everytime we start a new sudoku to parse, it gets larger
+# what is this thing with Nones being printed
+# there are values becoming None for some reason???
+
+
+# creating array of blank space positions
+def find_blank(box):
+    blank_pos = []
+    for g in range(len(box)):
+        for h in range(len(box[0])):
+            if box[g][h] == 0:
+                blank_pos.append((g, h))
+    return blank_pos[0:20]
+
+# returns whether or not there is a solution, uses temp
+
+
+def check(mat, ro, co, nu):
     for v in range(9):
-        if sud[hor][v] == symbol:
+        if mat[ro][v] == nu:
             return False
     for w in range(9):
-        if sud[w][vert] == symbol:
+        if mat[w][co] == nu:
             return False
-    def_ro = hor - hor % 3
-    def_co = vert - vert % 3
+    def_ro = ro - ro % 3
+    def_co = co - co % 3
     for e in range(3):
         for f in range(3):
-            if sud[e + def_ro][f + def_co] == symbol:
+            if mat[e + def_ro][f + def_co] == nu:
                 return False
     return True
 
@@ -35,22 +51,12 @@ def permutation(ma, rr, cc):
     if ma[rr][cc] > 0:
         return permutation(ma, rr, cc+1)
     for numb in range(1, 10):
-        if allowed(rr, cc, numb, ma):
-            ma[rr][cc] = numb
+        if check(ma, rr, cc, numb):
+            ma[rr][cc] = l
             if permutation(ma, rr, cc+1):
                 return True
         ma[rr][cc] = 0
     return False
-
-
-# creating array of blank space positions
-def find_blank(box):
-    blank_pos = []
-    for g in range(len(box)):
-        for h in range(len(box[0])):
-            if box[g][h] == 0:
-                blank_pos.append((g, h))
-    return blank_pos[0:20]
 
 
 def solve(bo):
@@ -81,47 +87,26 @@ while typed != 1 and typed != 2:
 is_one_solution = False
 while is_one_solution is False:
 
-    # make class for creating abstract rows, cols; for making board(s)
-    # random.sample(range(3), 3) provides a random array with values [0, 1, 2]
-
-    # like with rows and cols being used to make unique vals, these ranges and the operation create unique values for
-    # appending to rows from 0 to 8, and do so in such a manner that 3x3 boxes are outlined within the entire board,
-    # the board being outlined by the whole of rows and cols ([0 1 2] versus [0 1 2 3 4 5 6 7 8])
-
-    # these rows and columns are abstract; segment, made from appended vals, made from a unique combination derived from
-    # rows and cols, is each actual row, and cols don't have matching nums because of the
-    # unique way vals is found by both 'rows' and 'cols'
     rows = []
     for i in random.sample(range(3), 3):
         for a in random.sample(range(3), 3):
-            rows.append(3*a + i)
+            rows.append(3 * a + i)
     cols = []
     for j in random.sample(range(3), 3):
         for b in random.sample(range(3), 3):
-            cols.append(3*b + j)
+            cols.append(3 * b + j)
 
     segment = []
 
     for i in rows:
         for j in cols:
-            # this returns a value from 1 to 9, all of them random and unique before starting again,
-            # and makes it uniquely based on the combination of specific row and specific column (not interchangeable)
-            # highest val from just within parenthesis is 17; (9, 8) makes 9 + 6 + 2, versus (8, 9) makes 8 + 0 + 3
-            # (8, 5) versus (7, 6) is 8 + 6 + 1 versus 7 + 0 + 2, though their original sums are equal
-            val = (i + 3*(j % 3) + j//3) % 9 + 1
+            val = (i + 3 * (j % 3) + j // 3) % 9 + 1
             segment.append(val)
         sudoku.append(segment)
         segment = []
 
-    # board has now been created; need to extract some values that still allow it to be solved
-    # make board look cleaner
-
-    # since sudoku is being changed, need copy for solution
     solution = numpy.copy(sudoku)
 
-    # 21 is the minimum number of clues needed for a solution, though there could be multiple solutions
-    # usually set to 60 instead of 35
-    # unique random values being erased
     if typed == 1:
         n = 35
     else:
@@ -148,7 +133,7 @@ def sudoku_row(r):
     for value in r[6:9]:
         print(f' {value if value != 0 else " "} |', end='')
     print('|')
-    
+
 
 def display(grid):
     print(border1)
